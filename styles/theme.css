@@ -7,6 +7,9 @@
     @apply bg-light-850 dark:bg-dark-100;
   }
 
+  .invert-colors {
+    @apply invert dark:invert-0;
+  }
   .background-light900_dark200 {
     @apply bg-light-900 dark:bg-dark-200;
   }
@@ -177,10 +180,6 @@
 
   .placeholder {
     @apply placeholder:text-light-400 dark:placeholder:text-light-500;
-  }
-
-  .invert-colors {
-    @apply invert dark:invert-0;
   }
 
   .shadow-light100_dark100 {
