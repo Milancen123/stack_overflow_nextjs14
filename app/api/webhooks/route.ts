@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
+  console.log("--------------------------------------------------------");
+  console.log("Ovde sam sada na pocetku post requesta");
   //TODO:
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -36,7 +38,8 @@ export async function POST(req: Request) {
   const wh = new Webhook(WEBHOOK_SECRET);
 
   let evt: WebhookEvent;
-
+  console.log("--------------------------------------------------------");
+  console.log("Sad sam ispod evt: na liniji 40");
   // Verify the payload with the headers
   try {
     evt = wh.verify(body, {
@@ -58,6 +61,7 @@ export async function POST(req: Request) {
   console.log("--------------------------------------------------------");
   console.log(evt.type);
   if (eventType === "user.created") {
+    console.log("User is being created sada sam ovde");
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
 
