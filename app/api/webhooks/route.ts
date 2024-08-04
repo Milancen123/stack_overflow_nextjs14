@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
-
+  console.log("Ajde proradi");
   // Do something with the payload
   // For this guide, you simply log the payload to the console
   const { id } = evt.data;
