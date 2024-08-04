@@ -13,10 +13,13 @@ import Question from "@/database/question.model";
 export async function createUser(userParam: CreateUserParams) {
   try {
     connectToDatabase();
-
+    console.log("sada sam ovde, u user.action.ts createUser");
     const newUser = await User.create(userParam);
+    console.log("sada sam ispod funckije za kreiranje usera u bazi podatakaa");
     return newUser;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function updateUser(params: UpdateUserParams) {
