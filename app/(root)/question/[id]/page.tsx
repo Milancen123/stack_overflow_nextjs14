@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import Vote from "@/components/shared/Vote";
 import { redirect } from "next/navigation";
 
-const Page = async ({ params, searchParams }) => {
+const Page = async ({ params, searchParams }: any) => {
   const result = await getQuestionById({ questionId: params.id });
   const { userId } = auth();
 
