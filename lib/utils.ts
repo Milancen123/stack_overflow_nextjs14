@@ -41,3 +41,15 @@ export const formatNumber = (num: number): string => {
     return num.toString();
   }
 };
+
+//get the js date object object as a parametar and return a string in format {joined date(month and year only)}
+
+export const formatJoinDate = (date: Date): string => {
+  if (!(date instanceof Date)) {
+    throw new Error("Invalid date object provided");
+  }
+
+  const options = { year: "numeric", month: "long" };
+  //@ts-ignore
+  return `Joined ${date.toLocaleDateString("en-US", options)}`;
+};

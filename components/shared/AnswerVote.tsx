@@ -84,7 +84,7 @@ const AnswerVote = ({
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between max-sm:justify-start">
       <div className="flex justify-between items-center min-w-[80px]">
         <Button onClick={handleUpvoteButtonClick}>
           {upvoteClicked ? (

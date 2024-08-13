@@ -38,26 +38,8 @@ const AnswerCard = ({
   content,
 }: Props) => {
   return (
-    <div className="flex flex-col">
-      <div className="flex justify-between">
-        <Link
-          href={`/profile/${author_id}`}
-          className="flex items-center gap-1"
-        >
-          <Image
-            src={author_picture}
-            alt="profile pic"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <p className="paragraph-semibold text-dark300_light700">
-            {author_name}
-          </p>
-          <p className="text-gray-700 dark:text-gray-50">
-            • answered {getTimestamp(createdAt)}
-          </p>
-        </Link>
+    <div className="flex-col mt-[30px]">
+      <div className="flex flex-row-reverse max-sm:flex-col justify-between">
         <div>
           <AnswerVote
             answerId={_id}
@@ -69,6 +51,26 @@ const AnswerCard = ({
             numDownvotes={downvotes.length}
           />
         </div>
+        <Link
+          href={`/profile/${author_id}`}
+          className="flex items-center gap-1"
+        >
+          <Image
+            src={author_picture}
+            alt="profile pic"
+            width={24}
+            height={24}
+            className="rounded-full"
+          />
+          <div className="flex">
+            <p className="paragraph-semibold text-dark300_light700 max-sm:text-sm">
+              {author_name}
+            </p>
+            <p className="text-gray-700 dark:text-gray-50 max-sm:text-sm max-sm:line-clamp-1">
+              • answered {getTimestamp(createdAt)}
+            </p>
+          </div>
+        </Link>
       </div>
 
       <div className="mt-4">

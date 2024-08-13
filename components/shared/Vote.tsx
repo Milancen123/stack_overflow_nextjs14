@@ -4,13 +4,17 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { questionVote } from "@/lib/actions/answer.action";
 import { Elsie_Swash_Caps } from "next/font/google";
+import { saveQuestion } from "@/lib/actions/user.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 
 interface Props {
   questionId: string;
   userId: string;
+  clerkId: string;
   path: string;
   isUpvoted: boolean;
   isDownvoted: boolean;
+  isSaved: boolean;
   numUpvotes: number;
   numDownvotes: number;
 }
@@ -18,9 +22,11 @@ interface Props {
 const Vote = ({
   questionId,
   userId,
+  clerkId,
   path,
   isUpvoted,
   isDownvoted,
+  isSaved,
   numUpvotes,
   numDownvotes,
 }: Props) => {
@@ -33,7 +39,15 @@ const Vote = ({
   useEffect(() => {
     setUpvoteClick(isUpvoted);
     setDownvoteClick(isDownvoted);
+    setSaved(isSaved);
   }, []);
+
+  useEffect(() => {
+    viewQuestion({
+      questionId: questionId,
+      userId: userId ? userId : undefined,
+    });
+  }, [userId, questionId, clerkId, path]);
 
   const handleUpvoteButtonClick = async () => {
     const newUpvoteClicked = !upvoteClicked;
@@ -88,10 +102,13 @@ const Vote = ({
     const newSavedState = !saved;
 
     setSaved(newSavedState);
+
+    //toggles the question
+    await saveQuestion({ userId: clerkId, questionId, path });
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-full  max-w-[200px]">
       <div className="flex justify-between items-center min-w-[80px]">
         <Button onClick={handleUpvoteButtonClick}>
           {upvoteClicked ? (

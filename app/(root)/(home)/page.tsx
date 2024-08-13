@@ -48,13 +48,14 @@ const Home = async () => {
               title={question.title}
               tags={question.tags}
               author={question.author}
-              upvotes={question.upvotes}
+              upvotes={question.upvotes.length}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}
             />
           ))
         ) : (
+          //
           <NoResult
             title="There's no question to show"
             description=" Be the first to break the silence! Ask a Question and kickstart the

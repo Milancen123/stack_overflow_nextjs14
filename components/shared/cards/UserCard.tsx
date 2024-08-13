@@ -21,24 +21,25 @@ const UserCard = async ({ user }: Props) => {
   return (
     <Link
       href={`/profile/${user.clerkId}`}
-      className="shadow-light100_darknone w-full max-xs:min-w-full xs:w-[260px]"
+      className="shadow-light100_darknone w-full max-w-[300px] xs:max-w-[200px] overflow-hidden"
     >
-      <article className="background-light900_dark200 light-border flex w-full flex-col items-center justify-center rounded-2xl border p-8">
+      <article className="background-light900_dark200 light-border flex flex-col items-center justify-center rounded-2xl border p-4 xs:p-8 w-full">
         <Image
           src={user.picture}
           alt="user profile picture"
-          width={100}
-          height={100}
+          width={80}
+          height={80}
           className="rounded-full"
         />
         <div className="mt-4 text-center w-full">
-          <h3 className="h3-bold text-dark200_light900 line-clamp-1">
+          <h3 className="h3-bold text-dark200_light900 overflow-hidden text-ellipsis whitespace-nowrap">
             {user.name}
           </h3>
-          <p className="body-regualr text-dark500_light500 mt-2 line-clamp-1">
+          <h3 className="body-regular text-dark500_light500 mt-2 overflow-hidden text-ellipsis whitespace-nowrap break-all">
             @{user.username}
-          </p>
+          </h3>
         </div>
+
         <div className="mt-5">
           {interactedTags && interactedTags.length > 0 ? (
             <div className="flex items-center gap-2">

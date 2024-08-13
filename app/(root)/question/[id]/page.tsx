@@ -16,27 +16,26 @@ import { AnswerFilters } from "@/constants/filters";
 import { Button } from "@/components/ui/button";
 import Vote from "@/components/shared/Vote";
 import { redirect } from "next/navigation";
+import NoResult from "@/components/shared/NoResult";
 
 const Page = async ({ params, searchParams }: any) => {
   const result = await getQuestionById({ questionId: params.id });
   const { userId } = auth();
-
+  console.log(userId);
   if (!userId) throw new Error("No user with this id");
   let mongoUser = await getUserById({ userId: userId });
   let questionId: string = params.id;
   let authorId: string = mongoUser._id.toString();
 
   const answers = await getAnswers({ questionId });
-  console.log(answers.answers);
   return (
     <>
       <div className="flex-start w-full flex-col">
-        <div className="flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+        <div className="flex w-full flex-col-reverse flex-1 justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
           <Link
             href={`/profile/${result.author.clerkId}`}
             className="flex items-center justify-start gap-1"
           >
-            a
             <Image
               src={result.author.picture}
               alt="user profile picture"
@@ -51,9 +50,11 @@ const Page = async ({ params, searchParams }: any) => {
           <Vote
             questionId={questionId}
             userId={authorId}
+            clerkId={userId}
             path={`/question/${questionId}`}
             isUpvoted={result.upvotes.includes(authorId)}
             isDownvoted={result.downvotes.includes(authorId)}
+            isSaved={mongoUser.saved.includes(questionId)}
             numUpvotes={result.upvotes.length}
             numDownvotes={result.downvotes.length}
           />
@@ -67,7 +68,7 @@ const Page = async ({ params, searchParams }: any) => {
           imgUrl="/assets/icons/clock.svg"
           alt="clock icon"
           value={`asked ${getTimestamp(result.createdAt)}`}
-          title=" Asked"
+          title=""
           textStyles="small-medium text-dark400_light800"
         />
 
@@ -98,7 +99,7 @@ const Page = async ({ params, searchParams }: any) => {
           />
         ))}
       </div>
-      <Answer authorId={authorId} questionId={questionId} />
+
       <div className="mt-8">
         <div className="flex justify-between items-center">
           <h3 className="h3-bold text-primary-500 shadow-none dark:text-primary-500">
@@ -126,13 +127,18 @@ const Page = async ({ params, searchParams }: any) => {
               />
             ))
           ) : (
-            <div>
-              <p className="paragraph-semibold text-center">
-                No answers yet, be the first one to answer
-              </p>
-            </div>
+            // title, description, link, LinkTitle
+            <NoResult
+              title={"There's no answers to show"}
+              description={
+                "Be the first to break the silence! Answer the question, and help the developer find the solution"
+              }
+              link={"/ask-question"}
+              LinkTitle={"Ask a question"}
+            />
           )}
         </div>
+        <Answer authorId={authorId} questionId={questionId} />
       </div>
     </>
   );

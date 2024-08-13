@@ -22,6 +22,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 interface Props {
   authorId: string;
@@ -58,6 +59,7 @@ const Answer = ({ authorId, questionId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
+      revalidatePath(`/question/${questionId}`);
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -66,7 +68,7 @@ const Answer = ({ authorId, questionId }: Props) => {
   }
 
   return (
-    <div>
+    <div className="mt-8 flex w-full flex-col gap-10">
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <h4 className="paragraph-semibold taxt-dark400_light800">
           Write your answer here

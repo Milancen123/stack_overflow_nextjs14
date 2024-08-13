@@ -27,12 +27,17 @@ import "prismjs/plugins/line-numbers/prism-line-numbers.css";
 interface Props {
   data: string;
 }
-
+//flex flex-col flex-wrap text-sm sm:text-base max-sm:max-w-[320px]  max-sm:overflow-x-scroll
 const ParseHTML = ({ data }: Props) => {
   useEffect(() => {
     Prism.highlightAll();
   }, []);
-  return <div className="text-dark300_light700">{parse(data)}</div>;
+
+  return (
+    <div className="text-dark300_light700 overflow-hidden max-w-full max-sm:max-w-[310px] sm:max-w-[400px] lg:max-w-full">
+      {parse(data)}
+    </div>
+  );
 };
 
 export default ParseHTML;

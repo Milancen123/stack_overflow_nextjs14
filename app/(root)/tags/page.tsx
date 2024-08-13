@@ -1,5 +1,6 @@
 import TagCard from "@/components/shared/cards/TagCard";
 import Filter from "@/components/shared/Filter";
+import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { TagFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.actions";
@@ -25,11 +26,18 @@ const Page = async () => {
         />
       </div>
 
-      <section className="mt-12 flex flex-wrap gap-4">
+      <section className="mt-12 flex flex-wrap gap-4 max-sm:flex-col max-sm:justify-center">
         {result && result.tags.length > 0 ? (
           result.tags.map((tag) => <TagCard key={tag._id} tag={tag} />)
         ) : (
-          <div>No Tags available</div>
+          <NoResult
+            title={"There's no tags to show"}
+            description={
+              "Be the first to break the silence! Ask a question, and help the developer find the solution"
+            }
+            link={"/ask-question"}
+            LinkTitle={"Ask a question"}
+          />
         )}
       </section>
     </>
