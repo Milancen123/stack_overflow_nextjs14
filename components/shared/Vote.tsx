@@ -39,6 +39,8 @@ const Vote = ({
   useEffect(() => {
     setUpvoteClick(isUpvoted);
     setDownvoteClick(isDownvoted);
+    setUpvotes(numUpvotes);
+    setDownvotes(numDownvotes);
     setSaved(isSaved);
   }, []);
 

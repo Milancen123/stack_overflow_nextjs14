@@ -32,7 +32,17 @@ const AnswerVote = ({
   useEffect(() => {
     setUpvoteClick(isUpvoted);
     setDownvoteClick(isDownvoted);
-  }, []);
+    setUpvotes(numUpvotes);
+    setDownvotes(numDownvotes);
+  }, [
+    numUpvotes,
+    numDownvotes,
+    isUpvoted,
+    isDownvoted,
+    path,
+    userId,
+    answerId,
+  ]);
 
   const handleUpvoteButtonClick = async () => {
     const newUpvoteClicked = !upvoteClicked;

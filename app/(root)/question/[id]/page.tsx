@@ -13,9 +13,7 @@ import { getAnswers } from "@/lib/actions/answer.action";
 import AnswerCard from "@/components/shared/cards/AnswerCard";
 import Filter from "@/components/shared/Filter";
 import { AnswerFilters } from "@/constants/filters";
-import { Button } from "@/components/ui/button";
 import Vote from "@/components/shared/Vote";
-import { redirect } from "next/navigation";
 import NoResult from "@/components/shared/NoResult";
 
 const Page = async ({ params, searchParams }: any) => {
@@ -27,7 +25,10 @@ const Page = async ({ params, searchParams }: any) => {
   let questionId: string = params.id;
   let authorId: string = mongoUser._id.toString();
 
-  const answers = await getAnswers({ questionId });
+  const answers = await getAnswers({
+    questionId: questionId,
+    sortBy: searchParams.filter,
+  });
   return (
     <>
       <div className="flex-start w-full flex-col">

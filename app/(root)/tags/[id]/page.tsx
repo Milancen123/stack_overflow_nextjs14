@@ -2,17 +2,21 @@ import QuestionsCard from "@/components/shared/cards/QuestionsCard";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { getTagById } from "@/lib/actions/tag.actions";
+import { URLProps } from "@/types";
 import React from "react";
 
-const Page = async ({ params, searchParams }: any) => {
-  const result = await getTagById(params.id);
+const Page = async ({ params, searchParams }: URLProps) => {
+  const result = await getTagById({
+    tagId: params.id,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <div>
       <h1 className="h1-bold text-dark300_light700">{result.name}</h1>
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
-          route="/"
+          route={`/tags/${params.id}`}
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search for questions"

@@ -18,13 +18,6 @@ interface Props {
   content: string;
 }
 
-// answerId: string;
-//   userId: string;
-//   path: string;
-//   isUpvoted: boolean;
-//   isDownvoted: boolean;
-//   numUpvotes: number;
-//   numDownvotes: number;
 const AnswerCard = ({
   _id,
   user,

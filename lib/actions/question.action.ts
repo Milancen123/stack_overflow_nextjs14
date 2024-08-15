@@ -15,17 +15,45 @@ import {
 import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 import Answer from "@/database/answer.model";
+import { FilterQuery } from "mongoose";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
-    const questions = await Question.find({})
+    const { searchQuery, filter } = params;
+    console.log(filter);
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
+    const questions = await Question.find(query)
       .populate({
         path: "tags",
         model: Tag,
       })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
     return questions;
   } catch (error) {
@@ -124,6 +152,20 @@ export async function editQuestion(params: EditQuestionParams) {
     await question.save();
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getHotQuestions() {
+  try {
+    await connectToDatabase();
+    const hotQuestions = await Question.find({})
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5)
+      .select("_id title");
+
+    return hotQuestions;
   } catch (error) {
     console.log(error);
   }

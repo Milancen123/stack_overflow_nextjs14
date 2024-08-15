@@ -53,17 +53,37 @@ export async function createAnswer(params: CreateAnswerParams) {
 export async function getAnswers(params: GetAnswersParams) {
   try {
     await connectToDatabase();
-    const { questionId } = params;
+    const { questionId, sortBy } = params;
+    console.log(sortBy);
+    let sortOptions = {};
+    switch (sortBy) {
+      case "highestupvotes":
+        sortOptions = { upvotes: -1 };
+        break;
+      case "lowestupvotes":
+        sortOptions = { upvotes: 1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+      default:
+        break;
+    }
+
+    console.log(sortOptions);
     const answers = await Question.findById(questionId).populate({
       path: "answers",
       model: Answer,
-      options: { sort: { createdAt: -1 } },
+      options: { sort: sortOptions },
       populate: {
         path: "author",
         model: User,
       },
     });
-
+    revalidatePath(`/questions/${questionId}`);
     return answers;
   } catch (error) {
     console.log(error);

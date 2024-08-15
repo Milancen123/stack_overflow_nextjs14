@@ -8,9 +8,14 @@ import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionsCard from "@/components/shared/cards/QuestionsCard";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
 
-const Home = async () => {
-  const result = await getQuestions({});
+const Home = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getQuestions({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <>
@@ -41,6 +46,7 @@ const Home = async () => {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.length > 0 ? (
+          //@ts-ignore
           result.map((question) => (
             <QuestionsCard
               key={question._id}
@@ -65,6 +71,12 @@ const Home = async () => {
             LinkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={false}
+        />
       </div>
     </>
   );
