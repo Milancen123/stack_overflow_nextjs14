@@ -16,11 +16,17 @@ import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
 import Answer from "@/database/answer.model";
 import { FilterQuery } from "mongoose";
+import { skip } from "node:test";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     await connectToDatabase();
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
+
+    //calculate
+
+    const skipAmount = (page - 1) * pageSize;
+
     console.log(filter);
     const query: FilterQuery<typeof Question> = {};
 
@@ -53,9 +59,14 @@ export async function getQuestions(params: GetQuestionsParams) {
         model: Tag,
       })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
 
-    return questions;
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length;
+
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;

@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { Button } from "../ui/button";
+import { formUrlQuery } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   pageNumber: number;
@@ -8,7 +10,21 @@ interface Props {
 }
 
 const Pagination = ({ pageNumber, isNext }: Props) => {
-  const handleNavigation = (direction: string) => {};
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleNavigation = (direction: string) => {
+    const nextPageNumber =
+      direction === "prev" ? pageNumber - 1 : pageNumber + 1;
+
+    const newUrl = formUrlQuery({
+      params: searchParams.toString(),
+      key: "page",
+      value: nextPageNumber.toString(),
+    });
+
+    router.push(newUrl);
+  };
   return (
     <div className="flex w-full items-center justify-center gap-2">
       <Button

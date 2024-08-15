@@ -26,7 +26,6 @@ const Filter = ({ filters, otherClasses, containerClasses }: Props) => {
   const searchParams = useSearchParams();
 
   const handleValueChange = (item: string) => {
-    console.log("klikuno sam ovde");
     if (active === item) {
       setActive("");
       const newUrl = formUrlQuery({
