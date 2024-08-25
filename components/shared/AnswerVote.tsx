@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { answerVote } from "@/lib/actions/answer.action";
 import { Elsie_Swash_Caps } from "next/font/google";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   answerId: string;
@@ -67,6 +68,17 @@ const AnswerVote = ({
       hasdownVoted: newDownvoteClicked,
       path,
     });
+    if (newUpvoteClicked) {
+      return toast({
+        title: "Upvoted succesfully",
+        className: "bg-gray-200",
+      });
+    } else if (newDownvoteClicked) {
+      return toast({
+        title: "Downvoted succesfully",
+        className: "bg-gray-200",
+      });
+    }
   };
 
   const handleDownvoteButtonClick = async () => {
@@ -91,6 +103,17 @@ const AnswerVote = ({
       hasdownVoted: newDownvoteClicked,
       path,
     });
+    if (newUpvoteClicked) {
+      return toast({
+        title: "Upvoted succesfully",
+        className: "bg-gray-200",
+      });
+    } else if (newDownvoteClicked) {
+      return toast({
+        title: "Downvoted succesfully",
+        className: "bg-gray-200",
+      });
+    }
   };
 
   return (

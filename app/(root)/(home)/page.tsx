@@ -10,9 +10,19 @@ import QuestionsCard from "@/components/shared/cards/QuestionsCard";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import Loading from "./loading";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+  description: "Dev Overflow is a community of 1,000,000+ developers.",
+};
 
 const Home = async ({ searchParams }: SearchParamsProps) => {
-  const result = await getQuestions({
+  let result;
+
+  result = await getQuestions({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,

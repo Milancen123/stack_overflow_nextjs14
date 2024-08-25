@@ -103,7 +103,7 @@ export async function questionVote(params: QuestionVoteParams) {
         question.upvotes.push(userId);
       }
       //check to the downvotes if its there remove it
-
+      User.findByIdAndUpdate(question.author._id, { $inc: { reputation: 1 } });
       question.downvotes = question.downvotes.filter(
         //@ts-ignore
         (id) => id.toString() !== userId
@@ -118,6 +118,9 @@ export async function questionVote(params: QuestionVoteParams) {
           //@ts-ignore
           (id) => id.toString() !== userId
         );
+        User.findByIdAndUpdate(question.author.en_id, {
+          $inc: { reputation: -1 },
+        });
       }
     } else if (!hasupVoted && !hasdownVoted) {
       question.upvotes = question.upvotes.filter(
@@ -159,7 +162,6 @@ export async function answerVote(params: AnswerVoteParams) {
         answer.upvotes.push(userId);
       }
       //check to the downvotes if its there remove it
-
       answer.downvoted = answer.downvoted.filter(
         //@ts-ignore
         (id) => id.toString() !== userId

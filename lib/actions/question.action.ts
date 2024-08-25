@@ -23,11 +23,7 @@ export async function getQuestions(params: GetQuestionsParams) {
     await connectToDatabase();
     const { searchQuery, filter, page = 1, pageSize = 20 } = params;
 
-    //calculate
-
     const skipAmount = (page - 1) * pageSize;
-
-    console.log(filter);
     const query: FilterQuery<typeof Question> = {};
 
     if (searchQuery) {
@@ -38,7 +34,6 @@ export async function getQuestions(params: GetQuestionsParams) {
     }
 
     let sortOptions = {};
-
     switch (filter) {
       case "newest":
         sortOptions = { createdAt: -1 };
@@ -102,8 +97,15 @@ export async function createQuestion(params: CreateQuestionParams) {
     });
 
     // create an interaction record for the users ask_questoin action
+    await Interaction.create({
+      user: author,
+      actions: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    });
 
     //increment author's reputation by +5 for creating a question
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
   } catch (error) {}
 }
 

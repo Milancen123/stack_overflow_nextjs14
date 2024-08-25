@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 import React from "react";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   type: string;
@@ -20,13 +21,21 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
   const handleDelete = async () => {
     if (type === "Question") {
       await deleteQuestion({ questionId: itemId, path: pathname });
+      return toast({
+        title: "Question deleted succesfully",
+        className: "bg-red-400 color-white",
+      });
     } else if (type === "Answer") {
       await deleteAnswer({ answerId: itemId, path: pathname });
+      return toast({
+        title: "Answer deleted succesfully",
+        className: "bg-red-400 color-white",
+      });
     }
   };
 
   return (
-    <div className="flex items-center justify-end gap-3 max-sm:w-full">
+    <div className="flex items-center justify-end gap-3 max-sm:w-full ">
       {type === "Question" && (
         <Image
           src="/assets/icons/edit.svg"

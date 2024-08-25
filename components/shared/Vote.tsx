@@ -6,6 +6,7 @@ import { questionVote } from "@/lib/actions/answer.action";
 import { Elsie_Swash_Caps } from "next/font/google";
 import { saveQuestion } from "@/lib/actions/user.action";
 import { viewQuestion } from "@/lib/actions/interaction.action";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   questionId: string;
@@ -74,6 +75,17 @@ const Vote = ({
       hasdownVoted: newDownvoteClicked,
       path,
     });
+    if (newUpvoteClicked) {
+      return toast({
+        title: "Upvoted succesfully",
+        className: "bg-green-600",
+      });
+    } else if (newDownvoteClicked) {
+      return toast({
+        title: "Upvoted succesfully",
+        className: "bg-green-600",
+      });
+    }
   };
 
   const handleDownvoteButtonClick = async () => {
@@ -98,6 +110,17 @@ const Vote = ({
       hasdownVoted: newDownvoteClicked,
       path,
     });
+    if (newUpvoteClicked) {
+      return toast({
+        title: "Upvoted succesfully",
+        className: "bg-green-400",
+      });
+    } else if (newDownvoteClicked) {
+      return toast({
+        title: "Downvoted succesfully",
+        className: "bg-red-400",
+      });
+    }
   };
 
   const handleSaveQuestion = async () => {
@@ -107,10 +130,21 @@ const Vote = ({
 
     //toggles the question
     await saveQuestion({ userId: clerkId, questionId, path });
+    if (newSavedState) {
+      return toast({
+        title: "Saved to collection",
+        className: "bg-orange-400",
+      });
+    } else {
+      return toast({
+        title: "Removed from collection",
+        className: "bg-red-400",
+      });
+    }
   };
 
   return (
-    <div className="flex justify-between w-full  max-w-[200px]">
+    <div className="flex justify-between w-ful max-w-[200px]">
       <div className="flex justify-between items-center min-w-[80px]">
         <Button onClick={handleUpvoteButtonClick}>
           {upvoteClicked ? (

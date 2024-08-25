@@ -13,12 +13,13 @@ import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
 import AnswerTab from "@/components/shared/AnswerTab";
+import Loading from "./loading";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const userInfo = await getUserInfo({ userId: params.id });
   const { userId: clerkId } = auth();
   if (!userInfo) redirect("/sign-in");
-  console.log(userInfo.user);
+
   return (
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row">

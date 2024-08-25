@@ -24,6 +24,7 @@ import { createQuestion, editQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
 import { type } from "os";
 import router from "next/router";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   type?: string;
@@ -65,6 +66,10 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           path: pathname,
         });
         router.push(`/question/${parsedQuestionDetails._id}`);
+        return toast({
+          title: "Question edited succesfully",
+          className: "bg-green-400 color-white",
+        });
       } else {
         await createQuestion({
           title: values.title,
@@ -74,6 +79,10 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
           path: pathname,
         });
         router.push("/");
+        return toast({
+          title: "Question posted succesfully",
+          className: "bg-green-400 color-white",
+        });
       }
       // make an async call to your api  -> create a question contain all form data //navigate to home page
     } catch (error) {

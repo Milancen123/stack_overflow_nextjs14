@@ -2,13 +2,17 @@ import { getUserAnswers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import React from "react";
 import UserAnswersCard from "./cards/UserAnswersCard";
+import Pagination from "./Pagination";
 
 interface Props extends SearchParamsProps {
   userId: string;
   clerkId?: string | undefined | null;
 }
 const AnswerTab = async ({ searchParams, userId, clerkId }: Props) => {
-  const result = await getUserAnswers({ userId, page: 1 });
+  const result = await getUserAnswers({
+    userId,
+    page: searchParams?.page ? +searchParams.page : 1,
+  });
 
   return (
     <div className="flex flex-col gap-5">
@@ -24,6 +28,12 @@ const AnswerTab = async ({ searchParams, userId, clerkId }: Props) => {
             createdAt={item.createdAt}
           />
         ))}
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result ? result.isNext : false}
+        />
+      </div>
     </div>
   );
 };

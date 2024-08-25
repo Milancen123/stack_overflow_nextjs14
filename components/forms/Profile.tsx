@@ -21,6 +21,7 @@ import { editUserProfile } from "@/lib/actions/user.action";
 import { usePathname } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Params {
   clerkId: string;
@@ -63,6 +64,10 @@ const Profile = ({ clerkId, user }: Params) => {
         path: path,
       });
       router.push(`/profile/${clerkId}`);
+      return toast({
+        title: "Profile edited succesfully",
+        className: "bg-green-400 color-white",
+      });
     } catch (error) {
       console.log(error);
     } finally {
